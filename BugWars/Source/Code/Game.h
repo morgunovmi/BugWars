@@ -15,4 +15,6 @@ struct Game : public GameBase
 	virtual void OnBugsSpawned() override;
 
 	std::vector<GameObject*> objects;
+
+	~Game();
 };

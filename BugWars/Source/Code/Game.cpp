@@ -8,9 +8,9 @@
 Game* g_Game;
 
 Game::Game()
-	: GameBase({ [] {return new Tank; },
-				 [] {return new Bug; },
-				 [] {return new Bullet; } })
+	: GameBase({ [] { return new Tank; },
+				 [] { return new Bug; },
+				 [] { return new Bullet; }})
 {
 	g_Game = this;
 }
@@ -21,6 +21,11 @@ void Game::OnUpdate(float dt)
 	for (auto obj : objects)
 		if (!obj->disabled)
 			obj->Update(dt);
+
+	auto start = std::stable_partition(objects.begin(), objects.end(),
+		[](auto& obj) { return !obj->disabled; });
+	std::for_each(start, objects.end(), [](auto& obj) { delete obj; });
+	objects.erase(start, objects.end());
 }
 
 void Game::OnRender() const
@@ -39,4 +44,11 @@ void Game::AddObject(GameObject* object)
 
 void Game::OnBugsSpawned()
 {
+}
+
+Game::~Game()
+{
+	for (auto obj : objects) {
+		delete obj;
+	}
 }
