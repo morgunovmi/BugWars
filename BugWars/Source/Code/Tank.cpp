@@ -14,8 +14,11 @@ void Tank::OnUpdate(float dt)
 BugBase* Tank::GetBugToShoot() const
 {
 	for (auto obj : g_Game->objects)
-		if (auto bug = dynamic_cast<Bug*>(obj))
+		if (obj->GetRTTI() == Bug::s_RTTI)
+		{
+			auto bug = static_cast<Bug*>(obj);
 			return bug;
+		}
 
 	return nullptr;
 }
