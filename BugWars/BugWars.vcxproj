@@ -92,6 +92,7 @@
     <ClCompile Include="Source\Code\Bullet.cpp" />
     <ClCompile Include="Source\Code\Game.cpp" />
     <ClCompile Include="Source\Code\Main.cpp" />
+    <ClCompile Include="Source\Code\PartitionGrid.cpp" />
     <ClCompile Include="Source\Code\pch.cpp" />
     <ClCompile Include="Source\Code\Tank.cpp" />
   </ItemGroup>
@@ -100,6 +101,7 @@
     <ClInclude Include="Source\Code\Bullet.h" />
     <ClInclude Include="Source\Code\Game.h" />
     <ClInclude Include="Source\Code\Globals.h" />
+    <ClInclude Include="Source\Code\PartitionGrid.h" />
     <ClInclude Include="Source\Code\pch.h" />
     <ClInclude Include="Source\Code\Tank.h" />
   </ItemGroup>

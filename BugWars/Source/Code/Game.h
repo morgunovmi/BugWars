@@ -2,6 +2,8 @@
 #include "GameBase/GameBase.h"
 #include "Globals.h"
 
+#include "PartitionGrid.h"
+
 struct Tank;
 
 struct Game : public GameBase
@@ -15,6 +17,7 @@ struct Game : public GameBase
 	virtual void OnBugsSpawned() override;
 
 	std::vector<GameObject*> objects;
+	PartitionGrid grid{ 6400, 100 };
 
 	~Game();
 };

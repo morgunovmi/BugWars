@@ -38,6 +38,7 @@ void Game::OnRender() const
 void Game::AddObject(GameObject* object)
 {
 	objects.push_back(object);
+	grid.AddObject(object, object->position.x, object->position.y);
 }
 
 void Game::OnBugsSpawned()
