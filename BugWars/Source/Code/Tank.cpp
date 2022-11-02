@@ -5,6 +5,8 @@
 #include "Bullet.h"
 #include "Bug.h"
 
+#include <cassert>
+
 IMPLEMENT_RTTI(Tank);
 
 void Tank::OnUpdate(float dt)
@@ -13,14 +15,27 @@ void Tank::OnUpdate(float dt)
 
 BugBase* Tank::GetBugToShoot() const
 {
-	for (auto obj : g_Game->objects)
-		if (obj->GetRTTI() == Bug::s_RTTI)
+	Bug* target = nullptr;
+	float min_dist = std::numeric_limits<float>::max();
+	for (auto object : g_Game->objects)
+	{
+		if (object->GetRTTI() == Bug::s_RTTI)
 		{
-			auto* bug = static_cast<Bug*>(obj);
-			return bug;
-		}
+			auto* bug = static_cast<Bug*>(object);
 
-	return nullptr;
+			if (bug->disabled)
+				continue;
+
+			float dist = position.Distance(bug->position);
+			if (dist < min_dist)
+			{
+				min_dist = dist;
+				target = bug;
+			}
+		}
+	}
+
+	return target;
 }
 
 Point Tank::CalcShootDirection(Point target_pos, Point target_dir, float target_vel, float bullet_vel) const
