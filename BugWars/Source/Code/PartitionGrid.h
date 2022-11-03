@@ -3,9 +3,9 @@
 #include <unordered_map>
 #include <unordered_set>
 
-struct GameObject;
+#include "GameBase/Point.h"
 
-using Tile = std::pair<uint32_t, uint32_t>;
+struct GameObject;
 
 struct HashPair {
     template <class T1, class T2>
@@ -22,16 +22,22 @@ struct HashPair {
     }
 };
 
+using Tile = std::pair<uint32_t, uint32_t>;
+using TileMap = std::unordered_map<Tile, std::unordered_set<GameObject*>, HashPair>;
+
 struct PartitionGrid {
 public:
 	PartitionGrid(float physicalSize, uint32_t numTiles) : m_numTiles(numTiles), m_gridSize(physicalSize) {}
 	void AddObject(GameObject* obj, float x, float y);
-    void DeleteObject(GameObject* obj, float x, float y);
-	Tile GetTile(float x, float y);
+    void AddObject(GameObject* obj, Point p);
+    void DeleteObject(GameObject* obj, Tile tile);
+
+	Tile GetTile(float x, float y) const;
+    Tile GetTile(Point p) const;
+    uint32_t NumTiles() const;
 	std::unordered_set<GameObject*>& GetObjsInTile(Tile tile);
 
-private:
-	std::unordered_map<Tile, std::unordered_set<GameObject*>, HashPair> m_map{};
+	TileMap m_map{};
 	uint32_t m_numTiles;
 	float m_gridSize;
 };

@@ -26,6 +26,15 @@ void Game::OnUpdate(float dt)
 		[](auto& obj) { return !obj->disabled; });
 	std::for_each(start, objects.end(), [](auto& obj) { delete obj; });
 	objects.erase(start, objects.end());
+
+	for (uint32_t i = 0; i < grid.NumTiles(); ++i)
+	{
+		for (uint32_t j = 0; j < grid.NumTiles(); ++j)
+		{
+			auto& objs = grid.GetObjsInTile({ j ,i });
+			std::erase_if(objs, [](auto* obj) { return obj->disabled; });
+		}
+	}
 }
 
 void Game::OnRender() const
@@ -38,11 +47,17 @@ void Game::OnRender() const
 void Game::AddObject(GameObject* object)
 {
 	objects.push_back(object);
-	grid.AddObject(object, object->position.x, object->position.y);
+	if (object->GetRTTI() == Bug::s_RTTI)
+	{
+		grid.AddObject(object, object->position);
+		auto* bug = static_cast<Bug*>(object);
+		bug->lastTile = grid.GetTile(bug->position);
+	}
 }
 
 void Game::OnBugsSpawned()
 {
+	//auto count = std::accumulate(grid.m_map.begin(), grid.m_map.end(), 0u, [](auto accum, auto pair) { return accum + pair.second.size(); });
 }
 
 Game::~Game()

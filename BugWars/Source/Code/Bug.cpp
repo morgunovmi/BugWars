@@ -6,6 +6,12 @@ IMPLEMENT_RTTI(Bug);
 
 void Bug::OnUpdate(float dt)
 {
+	if (g_Game->grid.GetTile(position) != lastTile)
+	{
+		g_Game->grid.DeleteObject(this, lastTile);
+		g_Game->grid.AddObject(this, position);
+		lastTile = g_Game->grid.GetTile(position);
+	}
 }
 
 BugBase* Bug::FindBugToEat() const

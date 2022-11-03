@@ -17,7 +17,7 @@ struct Game : public GameBase
 	virtual void OnBugsSpawned() override;
 
 	std::vector<GameObject*> objects;
-	PartitionGrid grid{ 6400, 100 };
+	PartitionGrid grid{ 10000, 100 };
 
 	~Game();
 };
