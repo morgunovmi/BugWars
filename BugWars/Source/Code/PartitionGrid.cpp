@@ -38,3 +38,9 @@ std::unordered_set<GameObject*>& PartitionGrid::GetObjsInTile(Tile tile)
 {
 	return m_map[tile];
 }
+
+bool PartitionGrid::IsOutsideBounds(Tile tile, uint32_t dist_to_window_edge) const
+{
+	return tile.first + dist_to_window_edge > m_numTiles && tile.first - dist_to_window_edge < 0 &&
+		tile.second + dist_to_window_edge > m_numTiles && tile.second - dist_to_window_edge < 0;
+}

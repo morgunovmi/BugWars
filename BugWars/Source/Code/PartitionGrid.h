@@ -36,6 +36,7 @@ public:
     Tile GetTile(Point p) const;
     uint32_t NumTiles() const;
 	std::unordered_set<GameObject*>& GetObjsInTile(Tile tile);
+    bool IsOutsideBounds(Tile tile, uint32_t dist_to_window_edge) const;
 
 	TileMap m_map{};
 	uint32_t m_numTiles;
