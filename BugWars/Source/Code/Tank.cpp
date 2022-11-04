@@ -29,8 +29,7 @@ BugBase* Tank::GetBugToShoot() const
 		{
 			for (const auto off : { -dist_to_edge, dist_to_edge })
 			{
-				if (!(tile.first + off >= 0 && tile.first + off < g_Game->grid.NumTiles()
-					&& tile.second + i >= 0 && tile.second + i < g_Game->grid.NumTiles()))
+				if (!g_Game->grid.IsOffsetTileInsideBounds(tile, off, i))
 					continue;
 
 				for (auto object : g_Game->grid.GetObjsInTile({ tile.first + off, tile.second + i }))
@@ -54,8 +53,7 @@ BugBase* Tank::GetBugToShoot() const
 		{
 			for (const auto off : { -dist_to_edge, dist_to_edge })
 			{
-				if (!(tile.first + j >= 0 && tile.first + j < g_Game->grid.NumTiles()
-					&& tile.second + off >= 0 && tile.second + off < g_Game->grid.NumTiles()))
+				if (!g_Game->grid.IsOffsetTileInsideBounds(tile, j, off))
 					continue;
 
 				for (auto object : g_Game->grid.GetObjsInTile({ tile.first + j, tile.second + off }))

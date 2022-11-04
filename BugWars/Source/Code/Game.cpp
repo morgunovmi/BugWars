@@ -5,6 +5,8 @@
 #include "Bug.h"
 #include "Bullet.h"
 
+#include <numeric>
+
 Game* g_Game;
 
 Game::Game()
@@ -27,9 +29,9 @@ void Game::OnUpdate(float dt)
 	std::for_each(start, objects.end(), [](auto& obj) { delete obj; });
 	objects.erase(start, objects.end());
 
-	for (uint32_t i = 0; i < grid.NumTiles(); ++i)
+	for (int32_t i = 0; i < grid.NumTiles(); ++i)
 	{
-		for (uint32_t j = 0; j < grid.NumTiles(); ++j)
+		for (int32_t j = 0; j < grid.NumTiles(); ++j)
 		{
 			auto& objs = grid.GetObjsInTile({ j ,i });
 			std::erase_if(objs, [](auto* obj) { return obj->disabled; });
