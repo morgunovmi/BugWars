@@ -21,16 +21,15 @@ BugBase* Tank::GetBugToShoot() const
 	uint32_t window_size = 1;
 	
 	float min_dist = std::numeric_limits<float>::max();
-	while (!target)
+	while (!target && !g_Game->grid.IsOutsideBounds(tile, window_size / 2))
 	{
-		int32_t offset = window_size / 2;
+		int32_t dist_to_edge = window_size / 2;
 
-		for (int32_t i = -offset; i <= offset; ++i)
+		for (int32_t i = -dist_to_edge; i <= dist_to_edge; ++i)
 		{
-			for (const auto off : { -offset, offset })
+			for (const auto off : { -dist_to_edge, dist_to_edge })
 			{
-				if (!(tile.first + off >= 0 && tile.first + off < g_Game->grid.NumTiles()
-					&& tile.second + i >= 0 && tile.second + i < g_Game->grid.NumTiles()))
+				if (!g_Game->grid.IsOffsetTileInsideBounds(tile, off, i))
 					continue;
 
 				for (auto object : g_Game->grid.GetObjsInTile({ tile.first + off, tile.second + i }))
@@ -50,12 +49,11 @@ BugBase* Tank::GetBugToShoot() const
 			}
 		}
 
-		for (int32_t j = -offset; j <= offset; ++j)
+		for (int32_t j = -dist_to_edge; j <= dist_to_edge; ++j)
 		{
-			for (const auto off : { -offset, offset })
+			for (const auto off : { -dist_to_edge, dist_to_edge })
 			{
-				if (!(tile.first + j >= 0 && tile.first + j < g_Game->grid.NumTiles()
-					&& tile.second + off >= 0 && tile.second + off < g_Game->grid.NumTiles()))
+				if (!g_Game->grid.IsOffsetTileInsideBounds(tile, j, off))
 					continue;
 
 				for (auto object : g_Game->grid.GetObjsInTile({ tile.first + j, tile.second + off }))
@@ -75,7 +73,7 @@ BugBase* Tank::GetBugToShoot() const
 			}
 		}
 
-		if (target) return target;
+		if (target && window_size > 1) return target;
 		window_size += 2;
 	}
 
