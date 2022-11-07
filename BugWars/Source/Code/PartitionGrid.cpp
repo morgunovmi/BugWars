@@ -21,6 +21,16 @@ void PartitionGrid::DeleteObject(GameObject* obj, Tile tile)
 		&& "Removing an object from tile but it's not there");
 }
 
+uint32_t PartitionGrid::RemoveDisabled()
+{
+	uint32_t counter = 0;
+	for (auto & [tile, set] : m_map)
+	{
+		counter += std::erase_if(set, [](auto* obj) { return obj->disabled; });
+	}
+	return counter;
+}
+
 int32_t PartitionGrid::NumTiles() const { return m_numTiles; }
 
 std::vector<Tile> PartitionGrid::GetNeighboringTiles(Tile tile, uint32_t level) const

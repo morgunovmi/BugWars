@@ -4,6 +4,7 @@
 #include <unordered_set>
 
 #include "GameBase/Point.h"
+#include "GameBase/GameObject.h"
 
 struct GameObject;
 
@@ -24,6 +25,7 @@ public:
 	void AddObject(GameObject* obj, float x, float y);
 	void AddObject(GameObject* obj, Point p);
 	void DeleteObject(GameObject* obj, Tile tile);
+	uint32_t RemoveDisabled();
 
 	Tile GetTile(float x, float y) const;
 	Tile GetTile(Point p) const;
@@ -32,6 +34,7 @@ public:
 	std::unordered_set<GameObject*>& GetObjsInTile(Tile tile);
 	bool IsOffsetTileInsideBounds(Tile tile, int32_t offset_x, int32_t offset_y) const;
 
+private:
 	TileMap m_map{};
 	int32_t m_numTiles;
 	float m_gridSize;
