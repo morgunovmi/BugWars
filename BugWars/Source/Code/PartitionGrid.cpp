@@ -21,9 +21,9 @@ void PartitionGrid::DeleteObject(GameObject* obj, Tile tile)
 		&& "Removing an object from tile but it's not there");
 }
 
-uint32_t PartitionGrid::RemoveDisabled()
+std::size_t PartitionGrid::RemoveDisabled()
 {
-	uint32_t counter = 0;
+	std::size_t counter = 0;
 	for (auto & [tile, set] : m_map)
 	{
 		counter += std::erase_if(set, [](auto* obj) { return obj->disabled; });
