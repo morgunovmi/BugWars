@@ -121,7 +121,7 @@ void RandomTest(std::default_random_engine& rng, uint num_bugs)
 
 	for (uint i = 0; i < num_bugs; i++)
 	{
-		auto bug = new Bug;
+		auto bug = game.creators.bug_creator();
 		std::uniform_real_distribution<float> distr(min_corner, max_corner);
 
 		bug->position = Point(distr(rng), distr(rng));
