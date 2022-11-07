@@ -23,7 +23,7 @@ void PartitionGrid::DeleteObject(GameObject* obj, Tile tile)
 
 int32_t PartitionGrid::NumTiles() const { return m_numTiles; }
 
-std::vector<Tile> PartitionGrid::GetNeighboringTiles(Tile tile, uint32_t level)
+std::vector<Tile> PartitionGrid::GetNeighboringTiles(Tile tile, uint32_t level) const
 {
 	std::vector<Tile> neighbors{};
 	if (level == 0) return { tile };

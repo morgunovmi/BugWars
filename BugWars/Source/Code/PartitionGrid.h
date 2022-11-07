@@ -11,14 +11,7 @@ struct HashPair {
     template <class T1, class T2>
     size_t operator()(const std::pair<T1, T2>& p) const
     {
-        auto hash1 = std::hash<T1>{}(p.first);
-        auto hash2 = std::hash<T2>{}(p.second);
-
-        if (hash1 != hash2) {
-            return hash1 ^ hash2;
-        }
-
-        return hash1;
+        return (p.first * 0x1f1f1f1f) ^ p.second;
     }
 };
 
@@ -35,7 +28,7 @@ public:
 	Tile GetTile(float x, float y) const;
     Tile GetTile(Point p) const;
     int32_t NumTiles() const;
-    std::vector<Tile> GetNeighboringTiles(Tile tile, uint32_t level);
+    std::vector<Tile> GetNeighboringTiles(Tile tile, uint32_t level) const;
 	std::unordered_set<GameObject*>& GetObjsInTile(Tile tile);
     bool IsOffsetTileInsideBounds(Tile tile, int32_t offset_x, int32_t offset_y) const;
 
