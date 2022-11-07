@@ -23,6 +23,40 @@ void PartitionGrid::DeleteObject(GameObject* obj, Tile tile)
 
 int32_t PartitionGrid::NumTiles() const { return m_numTiles; }
 
+std::vector<Tile> PartitionGrid::GetNeighboringTiles(Tile tile, uint32_t level)
+{
+	std::vector<Tile> neighbors{};
+	if (level == 0) return { tile };
+
+	auto offset = static_cast<int32_t>(level);
+
+	// Vertical edges of the window
+	for (int32_t i = -offset; i <= offset; ++i)
+	{
+		for (const auto& o : { -offset, offset })
+		{
+			if (IsOffsetTileInsideBounds(tile, o, i))
+			{
+				neighbors.emplace_back(Tile{ tile.first + o, tile.second + i });
+			}
+		}
+	}
+
+	// Horizontal edges of the window
+	for (int32_t j = -offset + 1; j < offset; ++j)
+	{
+		for (const auto& o : { -offset, offset })
+		{
+			if (IsOffsetTileInsideBounds(tile, j, o))
+			{
+				neighbors.emplace_back(Tile{ tile.first + j, tile.second + o });
+			}
+		}
+	}
+
+	return neighbors;
+}
+
 Tile PartitionGrid::GetTile(float x, float y) const
 {
 	return { std::clamp(static_cast<int32_t>(x / m_gridSize * m_numTiles), 0, m_numTiles),
@@ -43,10 +77,4 @@ bool PartitionGrid::IsOffsetTileInsideBounds(Tile tile, int32_t offset_x, int32_
 {
 	return tile.first + offset_x >= 0 && tile.first + offset_x < m_numTiles
 		&& tile.second + offset_y >= 0 && tile.second + offset_y < m_numTiles;
-}
-
-bool PartitionGrid::IsOutsideBounds(Tile tile, int32_t dist_to_window_edge) const
-{
-	return tile.first + dist_to_window_edge >= m_numTiles && tile.first - dist_to_window_edge < 0 &&
-		tile.second + dist_to_window_edge >= m_numTiles && tile.second - dist_to_window_edge < 0;
 }

@@ -35,9 +35,9 @@ public:
 	Tile GetTile(float x, float y) const;
     Tile GetTile(Point p) const;
     int32_t NumTiles() const;
+    std::vector<Tile> GetNeighboringTiles(Tile tile, uint32_t level);
 	std::unordered_set<GameObject*>& GetObjsInTile(Tile tile);
     bool IsOffsetTileInsideBounds(Tile tile, int32_t offset_x, int32_t offset_y) const;
-    bool IsOutsideBounds(Tile tile, int32_t dist_to_window_edge) const;
 
 	TileMap m_map{};
 	int32_t m_numTiles;
