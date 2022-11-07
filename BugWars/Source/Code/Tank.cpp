@@ -28,18 +28,16 @@ BugBase* Tank::GetBugToShoot() const
 
 		for (const auto& tile : neighbors)
 		{
-			for (auto object : g_Game->grid.GetObjsInTile(tile))
+			for (auto& object : g_Game->grid.GetObjsInTile(tile))
 			{
-				auto* bug = static_cast<Bug*>(object);
-
-				if (bug->disabled)
+				if (object->disabled)
 					continue;
 
-				float dist = position.Distance(bug->position);
+				float dist = position.Distance(object->position);
 				if (dist < min_dist)
 				{
 					min_dist = dist;
-					target = bug;
+					target = static_cast<Bug*>(object);
 				}
 			}
 		}

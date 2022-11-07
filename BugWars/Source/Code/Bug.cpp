@@ -28,7 +28,7 @@ BugBase* Bug::FindBugToEat() const
 
 		for (const auto& tile : neighbors)
 		{
-			for (auto object : g_Game->grid.GetObjsInTile(tile))
+			for (auto& object : g_Game->grid.GetObjsInTile(tile))
 			{
 				auto* bug = static_cast<Bug*>(object);
 				if (bug == this)
