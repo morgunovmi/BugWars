@@ -62,10 +62,12 @@ void Bug::OnEat(BugBase& first, BugBase& second)
 	{
 		second.disabled = true;
 		second.visible = false;
+		g_Game->grid.DeleteObject(&second, g_Game->grid.GetTile(second.position));
 	}
 	else
 	{
 		first.disabled = true;
 		first.visible = false;
+		g_Game->grid.DeleteObject(&first, g_Game->grid.GetTile(first.position));
 	}
 }

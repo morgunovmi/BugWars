@@ -12,21 +12,31 @@ void Bullet::OnStart(Point)
 
 void Bullet::OnUpdate(float dt)
 {
-	for (auto object : g_Game->objects)
-		if (!object->disabled)
-			if (object->GetRTTI() == Bug::s_RTTI)
+	const auto tile = g_Game->grid.GetTile(position);
+	auto neighbors = g_Game->grid.GetNeighboringTiles(tile, 1);
+	neighbors.push_back(tile);
+	for (const auto& t : neighbors)
+	{
+		for (auto& object : g_Game->grid.GetObjsInTile(t))
+		{
+			if (!object->disabled)
 			{
-				auto* bug = static_cast<Bug*>(object);
-				if (bug->position.Distance(position) < bug->GetRadius())
+				if (object->GetRTTI() == Bug::s_RTTI)
 				{
-					g_Game->tank->score++;
-					bug->disabled = true;
-					bug->visible = false;
-					disabled = true;
-					visible = false;
-					return;
+					if (object->position.Distance(position) < object->GetRadius())
+					{
+						g_Game->tank->score++;
+						object->disabled = true;
+						object->visible = false;
+						g_Game->grid.DeleteObject(object, g_Game->grid.GetTile(object->position));
+						disabled = true;
+						visible = false;
+						return;
+					}
 				}
 			}
+		}
+	}
 }
 
 void Bullet::OnLifeEnd()
