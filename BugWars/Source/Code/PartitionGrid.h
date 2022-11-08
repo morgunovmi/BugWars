@@ -25,7 +25,6 @@ public:
 	void AddObject(GameObject* obj, float x, float y);
 	void AddObject(GameObject* obj, Point p);
 	void DeleteObject(GameObject* obj, Tile tile);
-	std::size_t RemoveDisabled();
 
 	Tile GetTile(float x, float y) const;
 	Tile GetTile(Point p) const;

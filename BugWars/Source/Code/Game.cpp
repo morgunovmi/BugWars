@@ -24,8 +24,6 @@ void Game::OnUpdate(float dt)
 		if (!obj->disabled)
 			obj->Update(dt);
 
-	grid.RemoveDisabled();
-
 	auto start = std::stable_partition(objects.begin(), objects.end(),
 		[](auto& obj) { return !obj->disabled; });
 	std::for_each(start, objects.end(), [](auto& obj) { delete obj; });

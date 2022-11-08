@@ -17,18 +17,9 @@ void PartitionGrid::AddObject(GameObject* obj, Point p)
 
 void PartitionGrid::DeleteObject(GameObject* obj, Tile tile)
 {
-	assert(GetObjsInTile(tile).erase(obj) == 1 
+	const auto removed = GetObjsInTile(tile).erase(obj);
+	assert(removed == 1 
 		&& "Removing an object from tile but it's not there");
-}
-
-std::size_t PartitionGrid::RemoveDisabled()
-{
-	std::size_t counter = 0;
-	for (auto & [tile, set] : m_map)
-	{
-		counter += std::erase_if(set, [](auto* obj) { return obj->disabled; });
-	}
-	return counter;
 }
 
 int32_t PartitionGrid::NumTiles() const { return m_numTiles; }
