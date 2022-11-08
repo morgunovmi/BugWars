@@ -40,7 +40,7 @@ BugBase* Bug::FindBugToEat() const
 				if (bug->id > id)
 					continue; // Can't eat that
 
-				float dist = position.Distance(bug->position);
+				float dist = position.Distance2(bug->position);
 				if (dist < min_dist)
 				{
 					min_dist = dist;

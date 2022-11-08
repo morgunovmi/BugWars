@@ -33,7 +33,7 @@ BugBase* Tank::GetBugToShoot() const
 				if (object->disabled)
 					continue;
 
-				float dist = position.Distance(object->position);
+				float dist = position.Distance2(object->position);
 				if (dist < min_dist)
 				{
 					min_dist = dist;
