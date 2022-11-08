@@ -21,18 +21,15 @@ void Bullet::OnUpdate(float dt)
 		{
 			if (!object->disabled)
 			{
-				if (object->GetRTTI() == Bug::s_RTTI)
+				if (object->position.Distance(position) < object->GetRadius())
 				{
-					if (object->position.Distance(position) < object->GetRadius())
-					{
-						g_Game->tank->score++;
-						object->disabled = true;
-						object->visible = false;
-						g_Game->grid.DeleteObject(object, g_Game->grid.GetTile(object->position));
-						disabled = true;
-						visible = false;
-						return;
-					}
+					g_Game->tank->score++;
+					object->disabled = true;
+					object->visible = false;
+					g_Game->grid.DeleteObject(object, g_Game->grid.GetTile(object->position));
+					disabled = true;
+					visible = false;
+					return;
 				}
 			}
 		}
