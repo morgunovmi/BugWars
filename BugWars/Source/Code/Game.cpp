@@ -17,6 +17,7 @@ Game::Game()
 	g_Game = this;
 }
 
+// TODO Don't draw objects off screen
 void Game::OnUpdate(float dt)
 {
 	PIXScopedEvent(PIX_COLOR_INDEX(5), __FUNCTION__);

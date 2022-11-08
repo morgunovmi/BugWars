@@ -4,6 +4,7 @@
 
 IMPLEMENT_RTTI(Bug);
 
+// TODO Maybe move update to grid class
 void Bug::OnUpdate(float dt)
 {
 	if (g_Game->grid.GetTile(position) != lastTile)
@@ -14,8 +15,10 @@ void Bug::OnUpdate(float dt)
 	}
 }
 
+// TODO move same search implementation to grid class maybe
 BugBase* Bug::FindBugToEat() const
 {
+	PIXScopedEvent(PIX_COLOR_INDEX(5), __FUNCTION__);
 	Bug* target = nullptr;
 	const auto tile = g_Game->grid.GetTile(position);
 	uint32_t level = 0;

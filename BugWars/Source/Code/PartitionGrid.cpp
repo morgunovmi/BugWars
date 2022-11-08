@@ -7,7 +7,8 @@
 
 void PartitionGrid::AddObject(GameObject* obj, float x, float y)
 {
-	m_map[GetTile(x, y)].insert(obj);
+	const auto tile = GetTile(x, y);
+	m_map[tile.second][tile.first].insert(obj);
 }
 
 void PartitionGrid::AddObject(GameObject* obj, Point p)
@@ -22,10 +23,12 @@ void PartitionGrid::DeleteObject(GameObject* obj, Tile tile)
 		&& "Removing an object from tile but it's not there");
 }
 
-int32_t PartitionGrid::NumTiles() const { return m_numTiles; }
+int32_t PartitionGrid::NumTiles() const { return numTiles; }
 
+// TODO Can pass a functor so that we return the object directly
 std::vector<Tile> PartitionGrid::GetNeighboringTiles(Tile tile, uint32_t level) const
 {
+	// TODO no need to use heap, can just allocate a big array
 	std::vector<Tile> neighbors{};
 	if (level == 0) return { tile };
 
@@ -60,8 +63,8 @@ std::vector<Tile> PartitionGrid::GetNeighboringTiles(Tile tile, uint32_t level) 
 
 Tile PartitionGrid::GetTile(float x, float y) const
 {
-	return { std::clamp(static_cast<int32_t>(x / m_gridSize * m_numTiles), 0, m_numTiles),
-		     std::clamp(static_cast<int32_t>(y / m_gridSize * m_numTiles), 0, m_numTiles) };
+	return { std::clamp(static_cast<int32_t>(x / physicalSize * numTiles), 0, numTiles),
+		     std::clamp(static_cast<int32_t>(y / physicalSize * numTiles), 0, numTiles) };
 }
 
 Tile PartitionGrid::GetTile(Point p) const
@@ -71,11 +74,11 @@ Tile PartitionGrid::GetTile(Point p) const
 
 std::unordered_set<GameObject*>& PartitionGrid::GetObjsInTile(Tile tile)
 {
-	return m_map[tile];
+	return m_map[tile.second][tile.first];
 }
 
 bool PartitionGrid::IsOffsetTileInsideBounds(Tile tile, int32_t offset_x, int32_t offset_y) const
 {
-	return tile.first + offset_x >= 0 && tile.first + offset_x < m_numTiles
-		&& tile.second + offset_y >= 0 && tile.second + offset_y < m_numTiles;
+	return tile.first + offset_x >= 0 && tile.first + offset_x < numTiles
+		&& tile.second + offset_y >= 0 && tile.second + offset_y < numTiles;
 }

@@ -14,6 +14,7 @@ void Tank::OnUpdate(float dt)
 {
 }
 
+// TODO move same search implementation to grid class
 BugBase* Tank::GetBugToShoot() const
 {
 	Bug* target = nullptr;

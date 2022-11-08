@@ -10,6 +10,7 @@ void Bullet::OnStart(Point)
 {
 }
 
+// TODO Same search implementation to grid class
 void Bullet::OnUpdate(float dt)
 {
 	const auto tile = g_Game->grid.GetTile(position);
